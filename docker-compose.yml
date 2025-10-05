@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+  backend:
+    build: ./backend
+    image: transcriptor-backend:latest
+    container_name: transcriptor-backend
+    env_file:
+      - ./backend/.env.example
+    ports:
+      - '8000:8000'
+    volumes:
+      - ./backend/app:/app
+      - /tmp:/tmp
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 4G
+  frontend:
+    build: ./frontend
+    image: transcriptor-frontend:latest
+    container_name: transcriptor-frontend
+    ports:
+      - '3000:3000'
+    restart: unless-stopped
